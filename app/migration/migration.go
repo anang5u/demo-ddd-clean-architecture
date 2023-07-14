@@ -6,4 +6,5 @@ import "demo-ddd-clean-architecture/app/model"
 var ModelMigrations []interface{} = []interface{}{
 	model.Customer{},
 	model.LoanApplication{},
+	model.Installment{},
 }

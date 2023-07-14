@@ -3,13 +3,13 @@ package installment
 import (
 	"demo-ddd-clean-architecture/app/model"
 	"errors"
-	"log"
 
 	"gorm.io/gorm"
 )
 
 type modInstallment struct {
 	db *gorm.DB
+	tx *gorm.DB
 }
 
 // NewInstallment
@@ -17,9 +17,15 @@ func NewInstallment() *modInstallment {
 	return &modInstallment{}
 }
 
-// WitdDbConn
+// WithDbConn
 func (m *modInstallment) WithDbConn(db *gorm.DB) *modInstallment {
 	m.db = db
+	return m
+}
+
+// WithTx
+func (m *modInstallment) WithTx(tx *gorm.DB) *modInstallment {
+	m.tx = tx
 	return m
 }
 
@@ -31,7 +37,7 @@ func (m *modInstallment) IsNewInstallmentExists(customers *model.Customer) (bool
 		Base: model.Base{
 			Status: stsNewInstallment,
 		},
-	}).Take(&count).Error; err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+	}).Take(&count).Error; err != nil {
 		return false, err
 	}
 
@@ -42,33 +48,15 @@ func (m *modInstallment) IsNewInstallmentExists(customers *model.Customer) (bool
 	return false, nil
 }
 
-// GetLimit
-/*
-func (m *modInstallment) GetLimit(customerId uuid.UUID) float64 {
+// Create
+func (m *modInstallment) Create(loans *[]model.Installment) error {
+	if m.tx == nil {
+		return errors.New("Tx while Create installment is required!")
+	}
 
-}
-*/
-
-// Generate
-func (m *modInstallment) Generate(customers *[]model.Customer) error {
-	m.db.Transaction(func(tx *gorm.DB) error {
-		for _, cust := range *customers {
-			log.Println(cust)
-			/*
-				// do some database operations in the transaction (use 'tx' from this point, not 'db')
-				if err := tx.Create(&Animal{Name: "Giraffe"}).Error; err != nil {
-					// return any error will rollback
-					return err
-				}
-
-				if err := tx.Create(&Animal{Name: "Lion"}).Error; err != nil {
-					return err
-				}
-			*/
-		}
-		// return nil will commit the whole transaction
-		return nil
-	})
+	if err := m.tx.Model(&model.Installment{}).Create(loans).Error; err != nil {
+		return err
+	}
 
 	return nil
 }

@@ -37,7 +37,9 @@ func (m *database) connect() (err error) {
 			m.conf.Get("DB_PORT"),
 			m.conf.Get("DB_NAME"),
 		)
-		m.db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		m.db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+			SkipDefaultTransaction: true,
+		})
 	} else {
 		m.db, err = gorm.Open(mysql.New(mysql.Config{
 			Conn: m.sqlDb,
@@ -69,6 +71,33 @@ func (m *database) GetDbConn() *gorm.DB {
 	return m.db
 }
 
+// TxBegin
+func (m *database) TxBegin() *gorm.DB {
+	if m.db != nil {
+		return m.db.Begin()
+	}
+	return nil
+}
+
+// TxRecover
+func (m *database) TxRecover(tx *gorm.DB) func() {
+	return func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}
+}
+
+// TxRollback
+func (m *database) TxRollback(tx *gorm.DB) {
+	tx.Rollback()
+}
+
+// TxCommit
+func (m *database) TxCommit(tx *gorm.DB) error {
+	return tx.Commit().Error
+}
+
 // AutoMigrate
 func (m *database) AutoMigrate() {
 	db := m.GetDbConn()
@@ -76,7 +105,6 @@ func (m *database) AutoMigrate() {
 		m.logger.Error("Error while establishing database connection!")
 		return
 	}
-	defer m.Close(db)
 
 	if len(migration.ModelMigrations) > 0 {
 		start := time.Now()

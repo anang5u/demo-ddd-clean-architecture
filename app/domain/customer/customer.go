@@ -14,6 +14,3 @@ func NewCustomer(db *gorm.DB) *modCustomer {
 		db: db,
 	}
 }
-
-// Find
-//func (m *modCustomer) Find()

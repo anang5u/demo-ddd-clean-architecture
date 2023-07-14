@@ -2,8 +2,13 @@ package main
 
 import (
 	"demo-ddd-clean-architecture/app/services/common"
+	"demo-ddd-clean-architecture/app/services/loans"
 )
 
 func main() {
-	common.Apply().Db.AutoMigrate()
+	cmn := common.Apply(".env")
+	cmn.Db.AutoMigrate()
+
+	loanSevice := loans.Apply(cmn.Db.GetDbConn())
+	loanSevice.GenerateInstallment()
 }

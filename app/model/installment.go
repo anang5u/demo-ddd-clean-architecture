@@ -11,10 +11,11 @@ type Installment struct {
 	AdminFee       float64   `json:"admin_fee" gorm:"type:float;"`                      // Angka admin transaksi barang
 	InstallmentAmt float64   `json:"installment_amt" gorm:"type:float;not null"`        // Angka jumlah cicilan transaksi
 	InterestAmt    float64   `json:"interest_amt" gorm:"type:float"`                    // Angka bunga yang ditagihkan setiap transaksi
+	TotalAmt       float64   `json:"total_amt" gorm:"type:float"`
 	AssetName      string    `json:"asset_name" gorm:"type:varchar(255);not null;"`
 	PaymentStatus  int       `json:"payment_status" gorm:"type:smallint;default:0"`
 	CustomerId     uuid.UUID `json:"customer_id,omitempty" gorm:"type:varchar(36)" format:"uuid"`
-	Customer       Customer  `json:"customer,omitempty" gorm:"foreignKey:CustomerId;references:Id"`
+	Customer       *Customer `json:"customer,omitempty" gorm:"foreignKey:CustomerId;references:Id"`
 }
 
 func (m *Installment) TableName() string {

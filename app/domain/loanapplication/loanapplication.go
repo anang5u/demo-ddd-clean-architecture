@@ -10,6 +10,7 @@ import (
 
 type loanApp struct {
 	db *gorm.DB
+	tx *gorm.DB
 }
 
 // NewLoanApplication
@@ -17,9 +18,15 @@ func NewLoanApplication() *loanApp {
 	return &loanApp{}
 }
 
-// WitdDbConn
+// WithDbConn
 func (m *loanApp) WithDbConn(db *gorm.DB) *loanApp {
 	m.db = db
+	return m
+}
+
+// WithTx
+func (m *loanApp) WithTx(tx *gorm.DB) *loanApp {
+	m.tx = tx
 	return m
 }
 
@@ -41,10 +48,20 @@ func (m *loanApp) IsApprovedExists(custId uuid.UUID) (bool, error) {
 	return false, nil
 }
 
-// ApprovedFirst
-func (m *loanApp) ApprovedFirst(custId uuid.UUID) (*model.LoanApplication, error) {
+// GetApprovedFirst
+func (m *loanApp) GetApprovedFirst(custId uuid.UUID) (*model.LoanApplication, error) {
 	res := model.LoanApplication{}
 	if err := m.db.Where("customer_id=? AND status=?", custId, stsApproved).Order("created_at DESC").First(&res).Error; err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+// GetApprovedLoans
+func (m *loanApp) GetApprovedLoans() (*[]model.LoanApplication, error) {
+	res := []model.LoanApplication{}
+	if err := m.db.Preload("Customer").Where("status=?", stsApproved).Order("created_at").Find(&res).Error; err != nil {
 		return nil, err
 	}
 
@@ -68,4 +85,14 @@ func (m *loanApp) CalculateTenor(loans *model.LoanApplication) (int, error) {
 	}
 
 	return 0, errors.New(errEmptyLoanApplication)
+}
+
+// UpdateToStatusDone
+func (m *loanApp) UpdateToStatusDone(IDs *[]uuid.UUID) error {
+	for _, id := range *IDs {
+		if err := m.tx.Model(&model.LoanApplication{}).Where("id = ?", id).Update("status", stsDone).Error; err != nil {
+			return err
+		}
+	}
+	return nil
 }

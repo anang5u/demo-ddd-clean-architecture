@@ -15,16 +15,23 @@ type (
 
 	// Logger
 	LoggerRepository interface {
-		Debug(s interface{})
-		Info(s interface{})
-		Warn(s interface{})
-		Error(s interface{})
+		Debug(s ...interface{})
+		Info(s ...interface{})
+		Warn(s ...interface{})
+		Error(s ...interface{})
 	}
 
 	// Database
 	DatabaseRepository interface {
 		GetDbConn() *gorm.DB
 		WithSqlDb(sqlDb *sql.DB) *database
+
+		// Transaction
+		TxBegin() *gorm.DB
+		TxRecover(tx *gorm.DB) func()
+		TxRollback(tx *gorm.DB)
+		TxCommit(tx *gorm.DB) error
+
 		AutoMigrate()
 	}
 

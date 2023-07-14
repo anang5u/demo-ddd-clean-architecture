@@ -2,7 +2,6 @@ package model
 
 import (
 	"demo-ddd-clean-architecture/app/helper"
-	"time"
 )
 
 type Customer struct {
@@ -25,11 +24,13 @@ func (m *Customer) TableName() string {
 func (m *Customer) Seed() *[]Customer {
 	customers := []Customer{}
 
+	now := helper.GetTimeNow()
+
 	customers = append(customers, Customer{
 		Base: Base{
 			Id:        helper.UuidMustParse("71e11445-8f94-493d-bd19-d7e43a1e576c"),
 			Sort:      1,
-			CreatedAt: time.Now(),
+			CreatedAt: &now,
 		},
 		IdCardNumber: "3211111111111111",
 		FullName:     "Budi",
@@ -45,7 +46,7 @@ func (m *Customer) Seed() *[]Customer {
 		Base: Base{
 			Id:        helper.UuidMustParse("7a49c137-84d4-433f-810c-3188ddef783f"),
 			Sort:      2,
-			CreatedAt: time.Now(),
+			CreatedAt: &now,
 		},
 		IdCardNumber: "3222222222222222",
 		FullName:     "Annisa",
