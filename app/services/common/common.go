@@ -1,11 +1,14 @@
 package common
 
+import "demo-ddd-clean-architecture/app/domain/identityrules"
+
 var cmnService *CommonService
 
 type CommonService struct {
-	Config ConfigRepository
-	Log    LoggerRepository
-	Db     DatabaseRepository
+	Config       ConfigRepository
+	Log          LoggerRepository
+	Db           DatabaseRepository
+	IdentityRule identityrules.IdentityRuleRepository
 }
 
 // CommonServiceConfiguration is an alias for a function that will take in a pointer to an CommonService and modify it
@@ -40,6 +43,7 @@ func withRepository() CommonServiceConfiguration {
 	return func(s *CommonService) error {
 		s.Log = NewLogger(s.Config)
 		s.Db = NewDatabase(s.Config, s.Log)
+		s.IdentityRule = identityrules.NewIdentityRules()
 		return nil
 	}
 }
