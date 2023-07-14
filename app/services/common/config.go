@@ -11,8 +11,11 @@ type config struct {
 }
 
 func NewConfig(filenames ...string) *config {
-	err := godotenv.Load(filenames...)
-	exception.PanicIfNeeded(err)
+	if len(filenames) > 0 {
+		err := godotenv.Load(filenames...)
+		exception.PanicIfNeeded(err)
+	}
+
 	return &config{}
 }
 

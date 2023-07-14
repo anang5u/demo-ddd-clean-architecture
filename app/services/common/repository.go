@@ -3,6 +3,7 @@ package common
 import (
 	"database/sql"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"gorm.io/gorm"
 )
 
@@ -25,5 +26,12 @@ type (
 		GetDbConn() *gorm.DB
 		WithSqlDb(sqlDb *sql.DB) *database
 		AutoMigrate()
+	}
+
+	// Database Mock (mysql)
+	DatabaseMockRepository interface {
+		GetDb() *gorm.DB
+		Close()
+		GetMock() sqlmock.Sqlmock
 	}
 )

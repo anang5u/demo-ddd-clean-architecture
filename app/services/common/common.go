@@ -8,6 +8,7 @@ type CommonService struct {
 	Config       ConfigRepository
 	Log          LoggerRepository
 	Db           DatabaseRepository
+	DbMock       DatabaseMockRepository
 	IdentityRule identityrules.IdentityRuleRepository
 }
 
@@ -43,6 +44,7 @@ func withRepository() CommonServiceConfiguration {
 	return func(s *CommonService) error {
 		s.Log = NewLogger(s.Config)
 		s.Db = NewDatabase(s.Config, s.Log)
+		s.DbMock = NewDbMock()
 		s.IdentityRule = identityrules.NewIdentityRules()
 		return nil
 	}
