@@ -2,10 +2,14 @@ package common
 
 import (
 	"database/sql"
+	"demo-ddd-clean-architecture/app/exception"
+	"demo-ddd-clean-architecture/app/migration"
 	"fmt"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type database struct {
@@ -63,4 +67,45 @@ func (m *database) GetDbConn() *gorm.DB {
 		}
 	}
 	return m.db
+}
+
+// AutoMigrate
+func (m *database) AutoMigrate() {
+	db := m.GetDbConn()
+	if db == nil {
+		m.logger.Error("Error while establishing database connection!")
+		return
+	}
+	defer m.Close(db)
+
+	if len(migration.ModelMigrations) > 0 {
+		start := time.Now()
+		err := db.AutoMigrate(migration.ModelMigrations...)
+		exception.PanicIfNeeded(err)
+
+		m.logger.Info(fmt.Sprintf("MIGRATE FINISH IN : %s", time.Since(start)))
+
+		seeds := migration.DataSeeds()
+		if len(seeds) > 0 {
+			for i := range seeds {
+				tx := db.Begin()
+
+				defer func() {
+					if r := recover(); r != nil {
+						tx.Rollback()
+					}
+				}()
+
+				if err := tx.Clauses(clause.OnConflict{DoNothing: true}).Create(seeds[i]).Error; nil != err {
+					m.logger.Error(fmt.Sprintf("Seeds Error: %s", err.Error()))
+					tx.Rollback()
+				}
+
+				if err := tx.Commit().Error; nil != err {
+					m.logger.Error(fmt.Sprintf("Seeds Error: %s", err.Error()))
+					tx.Rollback()
+				}
+			}
+		}
+	}
 }
