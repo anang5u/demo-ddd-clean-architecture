@@ -1,8 +1,13 @@
+## Framework
+
+> [Go Fiber](https://docs.gofiber.io/)
+> [Gorm ORM](https://gorm.io/docs/)
+> MySQL
+
+
 ## Instalasi
-> git clone git@github.com:anang5u/demo-ddd-clean-architecture.git
-
-> cd demo-ddd-clean-architecture
-
+> git clone git@github.com:anang5u/demo-ddd-clean-architecture.git\
+> cd demo-ddd-clean-architecture\
 > docker-compose up
 
 atau
@@ -11,6 +16,8 @@ atau
 
 |       | | |
 | ----------- | ----------- |---|
+| Auto Migration  | | |
+| Auto Generate Cicilan | | |
 | Info Tagihan | GET| http://127.0.0.1:4321/v1/demo/info |
 | Cek Tagihan| GET| http://127.0.0.1:4321/v1/demo/inquiry/{nomor_kontrak} |
 | Bayar Tagihan| POST| http://127.0.0.1:4321/v1/demo/payment |
@@ -20,10 +27,8 @@ atau
 
 ## Asset Pendukung
 
-> [Postman Collection](assets/DDD-Demo.postman_collection.json)
-
-> [File SQL](assets/db_demo.sql)
-
+> [Postman Collection](assets/DDD-Demo.postman_collection.json)\
+> [File SQL](assets/db_demo.sql)\
 > [Docker Image (ddd-demo-image)](https://hub.docker.com/r/anangsu13/ddd-demo-image)
 
 ## Arsitektur Aplikasi
