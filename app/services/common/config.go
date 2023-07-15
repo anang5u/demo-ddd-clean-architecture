@@ -1,16 +1,17 @@
 package common
 
 import (
+	"demo-ddd-clean-architecture/app/config"
 	"demo-ddd-clean-architecture/app/exception"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-type config struct {
+type modConfig struct {
 }
 
-func NewConfig(filenames ...string) *config {
+func NewConfig(filenames ...string) *modConfig {
 	if len(filenames) > 0 {
 		err := godotenv.Load(filenames...)
 		exception.PanicIfNeeded(err)
@@ -19,10 +20,23 @@ func NewConfig(filenames ...string) *config {
 		exception.PanicIfNeeded(err)
 	}
 
-	return &config{}
+	return &modConfig{}
 }
 
 // Get
-func (c *config) Get(key string) string {
-	return os.Getenv(key)
+func (c *modConfig) Get(key string) string {
+	cfgValue := ""
+
+	// default config diambil dari config/environment.go
+	if cfgConfigValue, ok := config.Environment[key]; ok {
+		cfgValue = cfgConfigValue.(string)
+	}
+
+	// override form env config
+	cfgEnvValue := os.Getenv(key)
+	if len(cfgEnvValue) > 0 {
+		cfgValue = cfgEnvValue
+	}
+
+	return cfgValue
 }
