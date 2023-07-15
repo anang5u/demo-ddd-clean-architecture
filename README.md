@@ -18,9 +18,8 @@ atau secara **background**
 ## Asset Pendukung
 
 > [Postman Collection](assets/DDD-Demo.postman_collection.json)
+
 > [File SQL](assets/db_demo.sql)
 
 ## Arsitekture Aplikasi
-```
 ![arsitekture aplikasi](assets/diagram-architecture.jpg)
-```
