@@ -1,4 +1,6 @@
-FROM golang:alpine
+FROM golang:alpine as base
+
+FROM base as dev
 
 RUN apk update && apk add --no-cache git
 
