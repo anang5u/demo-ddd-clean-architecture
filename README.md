@@ -2,7 +2,8 @@
 
 > [Go Fiber](https://docs.gofiber.io/)\
 > [Gorm ORM](https://gorm.io/docs/)\
-> MySQL
+> MySQL\
+> [Sql driver mock for Golang](https://github.com/DATA-DOG/go-sqlmock)
 
 
 ## Instalasi
