@@ -25,7 +25,7 @@ func (s *LoanService) GenerateInstallment() {
 
 	for _, loan := range *loanCustomers {
 		// cek, apakah cicilan sudah di generate
-		isExists, err := s.Installment.IsNewInstallmentExists(loan.Customer)
+		isExists, err := s.Installment.IsActiveInstallmentExists(loan.Customer)
 		if err != nil {
 			s.Common.Log.Error("IsNewInstallmentExists check Error, cust_id: ", loan.Customer.Id, err.Error())
 			continue
@@ -63,7 +63,7 @@ func (s *LoanService) GenerateInstallment() {
 					Id:        helper.UuidNew(),
 					Sort:      int64(i),
 					CreatedAt: &createdAt,
-					Status:    s.Installment.GetStatusNew(),
+					Status:    int(s.Installment.GetStatusActive()),
 				},
 				ContractNumber: contractNumber,
 				OtrAmt:         loan.Limit, // untuk saat ini di isi dengan nominal jumlah pengajuan ??

@@ -14,6 +14,9 @@ func NewConfig(filenames ...string) *config {
 	if len(filenames) > 0 {
 		err := godotenv.Load(filenames...)
 		exception.PanicIfNeeded(err)
+	} else {
+		err := godotenv.Load(".env")
+		exception.PanicIfNeeded(err)
 	}
 
 	return &config{}

@@ -29,7 +29,7 @@ func TestInstallment_IsNewInstallmentExists(t *testing.T) {
 	rows := sqlmock.NewRows([]string{"count"}).AddRow(1)
 	mock.ExpectQuery(`SELECT`).WillReturnRows(rows)
 
-	isExists, err := modIns.WithDbConn(db).IsNewInstallmentExists(&customer)
+	isExists, err := modIns.WithDbConn(db).IsActiveInstallmentExists(&customer)
 
 	assert.Nil(t, err)
 	assert.Equal(t, isExists == true, true)

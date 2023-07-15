@@ -10,6 +10,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	dblogger "gorm.io/gorm/logger"
 )
 
 type database struct {
@@ -29,6 +30,8 @@ func NewDatabase(config ConfigRepository, logger LoggerRepository) *database {
 
 // connect
 func (m *database) connect() (err error) {
+	logMode := dblogger.Default.LogMode(dblogger.Info)
+
 	if m.sqlDb == nil {
 		dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			m.conf.Get("DB_USER"),
@@ -39,11 +42,14 @@ func (m *database) connect() (err error) {
 		)
 		m.db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 			SkipDefaultTransaction: true,
+			Logger:                 logMode,
 		})
 	} else {
 		m.db, err = gorm.Open(mysql.New(mysql.Config{
 			Conn: m.sqlDb,
-		}), &gorm.Config{})
+		}), &gorm.Config{
+			Logger: logMode,
+		})
 	}
 
 	return

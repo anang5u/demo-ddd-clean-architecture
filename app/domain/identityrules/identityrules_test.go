@@ -1,6 +1,7 @@
 package identityrules
 
 import (
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,4 +15,10 @@ func TestIdentityRules_GenerateContractNumber(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.Equal(t, len(contractNumber) > 0, true)
+}
+
+func TestIdentityRules_CreateMask(t *testing.T) {
+	res := identityRule.CreateMask("Budi")
+
+	log.Println(res)
 }

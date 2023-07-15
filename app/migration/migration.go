@@ -7,4 +7,5 @@ var ModelMigrations []interface{} = []interface{}{
 	model.Customer{},
 	model.LoanApplication{},
 	model.Installment{},
+	model.Transaction{},
 }
