@@ -12,7 +12,7 @@
 
 atau
 > docker-compose up -d
-## Fitur Aplikasi
+## Fitur
 
 |       | | |
 | ----------- | ----------- |---|
@@ -31,8 +31,8 @@ atau
 > [File SQL](assets/db_demo.sql)\
 > [Docker Image (ddd-demo-image)](https://hub.docker.com/r/anangsu13/ddd-demo-image)
 
-## Arsitektur Aplikasi
+## Arsitektur
 ![arsitektur aplikasi](assets/diagram-architecture.jpg)
 
-## Design Database
+## Database
 ![design database](assets/Database-ER-Diagram.jpg)
