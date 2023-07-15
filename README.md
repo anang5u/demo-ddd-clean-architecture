@@ -28,3 +28,6 @@ atau
 
 ## Arsitektur Aplikasi
 ![arsitektur aplikasi](assets/diagram-architecture.jpg)
+
+## Design Database
+![design database](assets/Database-ER-Diagram.jpg)
