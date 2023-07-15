@@ -1,7 +1,7 @@
 ## Framework
 
-> [Go Fiber](https://docs.gofiber.io/)
-> [Gorm ORM](https://gorm.io/docs/)
+> [Go Fiber](https://docs.gofiber.io/)\
+> [Gorm ORM](https://gorm.io/docs/)\
 > MySQL
 
 
