@@ -1,0 +1,13 @@
+/*
+!/app/
+!/assets/
+!/.env
+!/.env.test
+!/.gitignore
+!/docker-compose.yaml
+!/Dockerfile
+!/go.mod
+!/go.sum
+!/main.go
+!/README.md
+!/kubernetes-deployment-*.yaml
