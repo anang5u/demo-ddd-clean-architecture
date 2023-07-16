@@ -8,8 +8,8 @@
 ## Instalasi
 
 ```ruby
-git clone git@github.com:anang5u/demo-ddd-clean-architecture.git\
-cd demo-ddd-clean-architecture\
+git clone git@github.com:anang5u/demo-ddd-clean-architecture.git
+cd demo-ddd-clean-architecture
 docker-compose up
 ```
 
