@@ -5,17 +5,26 @@
 > MySQL\
 > [Sql driver mock for Golang](https://github.com/DATA-DOG/go-sqlmock)
 
-
 ## Instalasi
-> git clone git@github.com:anang5u/demo-ddd-clean-architecture.git\
-> cd demo-ddd-clean-architecture\
-> docker-compose up
+
+```ruby
+git clone git@github.com:anang5u/demo-ddd-clean-architecture.git\
+cd demo-ddd-clean-architecture\
+docker-compose up
+```
 
 atau
-> docker-compose up -d
+
+```ruby
+docker-compose up -d
+```
 
 ## Uninstal
-> docker-compose down -v
+
+```ruby
+docker-compose down -v
+```
+
 ## Fitur
 
 |       | | |
