@@ -54,9 +54,16 @@ docker-compose down -v
 #### :white_check_mark:  Minikube - Ubuntu 22.04.02
 ```ruby
 minikube start
+minikube addons list
+minikube addons enable ingress
+```
+
+```ruby
 kubectl create namespace ddd-demo
 kubectl apply -f kubernetes-deployment-local.yaml
+```
 
+```ruby
 kubectl -n demo-ddd get deployment
 kubectl -n demo-ddd get service
 kubectl -n demo-ddd get pod
