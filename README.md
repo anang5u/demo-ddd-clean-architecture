@@ -13,6 +13,9 @@
 
 atau
 > docker-compose up -d
+
+## Uninstal
+> docker-compose down -v
 ## Fitur
 
 |       | | |
